@@ -10,5 +10,5 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "6694970760:AAGe7pAorvORM7xRb-9AyOpdoEfNJMd6R
 
 app = Client("wordmine", bot_token=BOT_TOKEN, api_id=API_ID, api_hash=API_HASH)
 
-print(pyrogram.__version__)
+
 
