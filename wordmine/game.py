@@ -3,11 +3,10 @@ import os
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
-from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard, add_served_user, add_served_chat
+from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard
 from wordmine import app
 from wordmine.challenge import *
-from cd import challenger_data
-
+from wordmine.cd import challenger_data
 # Fallback words in case the API fails
 fallback_words = {
     4: ["play", "word", "game", "chat"],
@@ -35,6 +34,7 @@ word_lists = {length: fetch_words(length) for length in fallback_words}
 
 # Game data storage
 group_games = {}
+
 
 
 # Check if a word is valid
@@ -156,8 +156,15 @@ async def select_new_game_length(client, callback_query):
 
     # Generate a word
     word = random.choice(word_lists[word_length])
-    group_games[user_id] = {"word": word, "length": word_length}  # Store active game
+      # Store active game
+    group_games[user_id] = {
+    "word": word,
+    "length": word_length,
+    "used_words": set(),
+    "history": []
+    }
 
+    
     await callback_query.message.edit_text(
         f"🆕 **New Word Game Started!**\n"
         f"🔤 **Word Length:** `{word_length}`\n"
@@ -184,19 +191,17 @@ async def process_guess(client: Client, message: Message):
                 await message.reply("⚠️ Invalid guess length!")
                 return
 
-            feedback = "".join(
-                "🟩" if text[i] == word[i] else ("🟨" if text[i] in word else "🟥")
-                for i in range(len(text))
-            )
+            feedback = check_guess(text, word)
 
             await message.reply(f"{feedback} → {text.upper()}")
 
             if text == word:
                 winner_id = user_id
+                chat_id = message.chat.id
                 loser_id = game_data["opponent_id"] if user_id == challenger_id else challenger_id
                 winnings = bet_amount * 2
 
-                update_user_points(winner_id, winnings)
+                update_user_points(winner_id, chat_id, winnings)
                 total_points = get_user_points(winner_id)
 
                 del challenger_data[challenger_id]
@@ -211,10 +216,10 @@ async def process_guess(client: Client, message: Message):
             return  # Stop further processing since this was a challenge game
 
     # If not a challenge game, check for a normal /new game
-    if chat_id not in group_games:
+    if user_id not in group_games:
         return  # No active game in this group
 
-    word_to_guess = group_games[chat_id]["word"]
+    word_to_guess = group_games[user_id]["word"]
 
     if len(text) != len(word_to_guess):
         return  
@@ -223,15 +228,15 @@ async def process_guess(client: Client, message: Message):
         await message.reply(f"❌ {mention}, this word is not valid. Try another one!")
         return
 
-    if text in group_games[chat_id]["used_words"]:
+    if text in group_games[user_id]["used_words"]:
         await message.reply(f"🔄 {mention}, you already used this word! Try a different one.")
         return
 
-    group_games[chat_id]["used_words"].add(text)
+    group_games[user_id]["used_words"].add(text)
     feedback = check_guess(text, word_to_guess)
 
-    group_games[chat_id]["history"].append(f"{feedback} → {text.upper()}")
-    guess_history = "\n".join(group_games[chat_id]["history"])
+    group_games[user_id]["history"].append(f"{feedback} → {text.upper()}")
+    guess_history = "\n".join(group_games[user_id]["history"])
 
     await message.reply(guess_history)
 
@@ -243,7 +248,7 @@ async def process_guess(client: Client, message: Message):
         user_score = next((score for uid, score in leaderboard if uid == user_id), 0)
         user_rank = next((i + 1 for i, (uid, _) in enumerate(leaderboard) if uid == user_id), "Unranked")
 
-        del group_games[chat_id]
+        del group_games[user_id]
 
         await message.reply(
             f"🎉 Congratulations {mention}! 🎉\n"
