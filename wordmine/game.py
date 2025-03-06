@@ -315,7 +315,7 @@ async def process_guess(client: Client, message: Message):
 
         await message.reply(
             f"🎉 Congratulations {mention}! 🎉\n"
-            f" {word_to_guess.upper()} correctly!\n"
+            f"🔖 Correct guess! it was {word_to_guess.upper()}\n"
             f"🏆 You earned 1 point!\n"
             f"📊 Your total score: {user_score}\n"
             f"🌍 Your global rank: #{user_rank}\n"
