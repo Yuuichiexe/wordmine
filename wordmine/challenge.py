@@ -108,9 +108,7 @@ async def select_challenge_length(client, callback_query):
     word_length = int(data[2])
     challenger_id = int(data[3])
 
-    challenger_data[challenger_id] = {
-        "bet_amount": bet_amount
-    }
+    
 
     if challenger_id != callback_query.from_user.id:
         await callback_query.answer("⚠️ Only the challenger can select the word length!", show_alert=True)
@@ -122,7 +120,8 @@ async def select_challenge_length(client, callback_query):
 
     challenger_data[challenger_id]["word_length"] = word_length
     opponent_id = challenger_data[challenger_id]["opponent_id"]
-
+    bet_amount = challenger_data[challenger_id]["bet_amount"]
+        
     buttons = [
         [InlineKeyboardButton("✅ Accept", callback_data=f"accept_{challenger_id}")],
         [InlineKeyboardButton("❌ Decline", callback_data=f"decline_{challenger_id}")],
