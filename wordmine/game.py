@@ -271,7 +271,7 @@ async def process_guess(client: Client, message: Message):
     feedback = check_guess(text, word_to_guess)
 
     group_games[chat_id]["history"].append(f"{feedback} → {text.upper()}")
-    guess_history = "\n".join(group_games[user_id]["history"])
+    guess_history = "\n".join(group_games[chat_id]["history"])
 
     await message.reply(guess_history)
 
