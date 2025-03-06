@@ -312,7 +312,9 @@ async def process_guess(client: Client, message: Message):
         del group_games[chat_id]
 
         definition = fetch_word_definition(word_to_guess)
-
+        definition_lines = definition.split("\n")
+        quoted_definition = "\n".join(f"> {line}" for line in definition_lines)
+ 
         await message.reply(
             f"🎉 Congratulations {mention}! 🎉\n"
             f"🔖 Correct guess! it was {word_to_guess.upper()}\n"
@@ -320,7 +322,7 @@ async def process_guess(client: Client, message: Message):
             f"📊 Your total score: {user_score}\n"
             f"🌍 Your global rank: #{user_rank}\n"
             f"📖 **Definition of the word:**"
-            f"> {definition.replace('.', '\\.')}",
+            f"{quoted_definition}",
             parse_mode="MarkdownV2"
         )
 
