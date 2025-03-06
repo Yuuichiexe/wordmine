@@ -132,7 +132,7 @@ async def select_challenge_length(client, callback_query):
         f"👤**Hey [{opponent_id}](tg://user?id={opponent_id})**\n"
         f"🙅‍♂**User {callback_query.from_user.mention} challenged you**\n"
         f"📝**Challenger selected a {word_length}-letter Game**\n"
-        f"📝**With a bet amount of {bet_amount}**\n"
+        f"💰**With a bet amount of {bet_amount}**\n"
         f"🔐**Do you accept this Challenge?**\n",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
@@ -160,9 +160,9 @@ async def accept_challenge(client, callback_query):
 
     await callback_query.message.edit_text(
         f"⚔️ **THE CHALLENGE HAS STARTED!**\n\n"
-        f"🔤 **Word length:** `{word_length}`\n"
-        f"💰 **Bet Pool:** `{bet_amount * 2} points`\n"
-        f"🤔 *Both players, start guessing!*"
+        f"🔤 **Word length:** {word_length}\n"
+        f"💰 **Bet Pool:** {bet_amount * 2} points\n"
+        f"🤔 **Both players, start guessing!**"
     )
 
 @app.on_callback_query(filters.regex("^decline_"))
