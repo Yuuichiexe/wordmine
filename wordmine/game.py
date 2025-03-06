@@ -19,6 +19,7 @@ fallback_words = {
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
 
+
 def fetch_words(word_length, max_words=100000):
     try:
         response = requests.get(
@@ -27,7 +28,15 @@ def fetch_words(word_length, max_words=100000):
         )
         response.raise_for_status()
         words = [word["word"] for word in response.json()]
-        return words if words else fallback_words[word_length]
+
+        # Filter words that have definitions
+        valid_words = []
+        for word in words:
+            definition = fetch_word_definition(word)
+            if definition and definition != "No definition available.":
+                valid_words.append(word)
+        
+        return valid_words if valid_words else fallback_words[word_length]
     except requests.RequestException:
         return fallback_words[word_length]
 
