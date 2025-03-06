@@ -323,7 +323,7 @@ async def process_guess(client: Client, message: Message):
             f"🌍 Your global rank: #{user_rank}\n"
             f"📖 **Definition of the word:**"
             f"{quoted_definition}",
-            parse_mode=pyrogram.enums.ParseMode.HTML
+            parse_mode=ParseMode.HTML
         )
 
 @app.on_message(filters.command("leaderboard"))
