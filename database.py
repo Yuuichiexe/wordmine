@@ -128,13 +128,12 @@ def get_global_leaderboard():
     return [(entry["user_id"], entry["score"]) for entry in leaderboard]  # Return correct format
 
 
-def get_chat_leaderboard(chat_id: int, limit: int = 10):
-    leaderboard = list(chat_scores.find({"chat_id": chat_id}, {"_id": 0, "user_id": 1, "score": 1})
-                        .sort("score", DESCENDING)
-                        .limit(limit))
-    print(f"🔍 Chat Leaderboard Retrieved for chat {chat_id}: {leaderboard}")  # Debugging Output
+def get_chat_leaderboard(chat_id):
+    """Retrieve the chat-specific leaderboard sorted by score."""
+    leaderboard = list(
+        mongo_db.chat_scores.find({"chat_id": chat_id}, {"user_id": 1, "score": 1}).sort("score", -1)
+    )
     return leaderboard
-
 
 # ** Debugging: Fetch and Print Leaderboards **
 if __name__ == "__main__":
