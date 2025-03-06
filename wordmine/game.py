@@ -31,6 +31,19 @@ def fetch_words(word_length, max_words=100000):
     except requests.RequestException:
         return fallback_words[word_length]
 
+def fetch_word_definition(word):
+    """Fetch the definition of the word using the Datamuse API."""
+    try:
+        response = requests.get(f"https://api.datamuse.com/words?ml={word}", timeout=5)
+        response.raise_for_status()
+        data = response.json()
+        if data:
+            return data[0].get('defs', ['No definition available.'])[0]
+        else:
+            return "No definition available."
+    except requests.RequestException:
+        return "No definition available."
+
 
 # Fetch words for different lengths
 word_lists = {length: fetch_words(length) for length in fallback_words}
@@ -239,14 +252,17 @@ async def process_guess(client: Client, message: Message):
                 update_user_points(winner_id, chat_id, winnings)
                 total_points = get_user_points(winner_id)
 
+                definition = fetch_word_definition(word)
+
                 del challenger_data[challenger_id]
 
                 await message.reply(
                     f"🎉 Congratulations, {mention}! 🎉\n"
-                    f"🏆 You guessed the word **{word.upper()}** correctly!\n"
+                    f"🏆 correct guess! it was **{word.upper()}** \n"
                     f"💰 You won **{winnings} points**!\n"
                     f"🔥 Your new total: **{total_points} points**!\n"
-                    f"🎯 *Keep challenging and dominate the leaderboard!* 🚀"
+                    f"🎯 Keep challenging and dominate the leaderboard!"
+                    f"📖 **Definition of the word:** {definition}"
                 )
             return  # Stop further processing since this was a challenge game
 
@@ -289,12 +305,15 @@ async def process_guess(client: Client, message: Message):
         
         del group_games[chat_id]
 
+        definition = fetch_word_definition(word_to_guess)
+
         await message.reply(
             f"🎉 Congratulations {mention}! 🎉\n"
             f"You guessed the word {word_to_guess.upper()} correctly!\n"
             f"🏆 You earned 1 point!\n"
             f"📊 Your total score: {user_score}\n"
             f"🌍 Your global rank: #{user_rank}"
+            f"📖 **Definition of the word:** {definition}"
         )
 
 @app.on_message(filters.command("leaderboard"))
