@@ -95,7 +95,7 @@ async def handle_challenge(client, message):
     await message.reply(
         f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n"
         f"🎯 **{message.from_user.mention} has challenged [{opponent_id}](tg://user?id={opponent_id})!**\n"
-        f"💰 **Bet Amount:** `{bet_amount}` points\n\n"
+        f"💰 **Bet Amount:** `{bet_amount}` points\n"
         "🔢 **Challenger, select a word length**:",
         reply_markup=InlineKeyboardMarkup(buttons),
         quote=True
@@ -107,6 +107,10 @@ async def select_challenge_length(client, callback_query):
     data = callback_query.data.split("_")
     word_length = int(data[2])
     challenger_id = int(data[3])
+
+    challenger_data[challenger_id] = {
+        "bet_amount": bet_amount
+    }
 
     if challenger_id != callback_query.from_user.id:
         await callback_query.answer("⚠️ Only the challenger can select the word length!", show_alert=True)
@@ -128,7 +132,8 @@ async def select_challenge_length(client, callback_query):
         f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n"
         f"👤**Hey [{opponent_id}](tg://user?id={opponent_id})**\n"
         f"🙅‍♂**User {callback_query.from_user.mention} challenged you**\n"
-        f"📝**User selected a {word_length}-letter Game**\n"
+        f"📝**Challenger selected a {word_length}-letter Game**\n"
+        f"📝**With a bet amount of {bet_amount}**\n"
         f"🔐**Do you accept this Challenge?**\n",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
