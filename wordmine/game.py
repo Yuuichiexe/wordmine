@@ -19,7 +19,7 @@ fallback_words = {
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
 
-def fetch_words(word_length, max_words=50):
+def fetch_words(word_length, max_words=200):
     try:
         response = requests.get(
             f"https://api.datamuse.com/words?sp={'?' * word_length}&max={max_words}",
@@ -43,11 +43,12 @@ def fetch_word_definition(word):
         if isinstance(data, list) and "meanings" in data[0]:
             meanings = data[0]["meanings"]
             first_definition = meanings[0]["definitions"][0]["definition"]
-            return first_definition
+            return f"📝 <blockquote>{first_definition}</blockquote>"
         else:
-            return "No definition available."
+            return "📝 <blockquote>No definition available.</blockquote>"
     except requests.RequestException:
-        return "No definition available."
+        return "📝 <blockquote>No definition available.</blockquote>"
+
 
 
 # Fetch words for different lengths
@@ -266,7 +267,7 @@ async def process_guess(client: Client, message: Message):
                     f"🏆 correct guess! it was **{word.upper()}** \n"
                     f"💰 You won **{winnings} points**!\n"
                     f"🔥 Your new total: **{total_points} points**!\n"
-                    f"🎯 Keep challenging and dominate the leaderboard!"
+                    f"🎯 Keep challenging and dominate the leaderboard!\n"
                     f"📖 **Definition of the word:** {definition}"
                 )
             return  # Stop further processing since this was a challenge game
@@ -314,10 +315,10 @@ async def process_guess(client: Client, message: Message):
 
         await message.reply(
             f"🎉 Congratulations {mention}! 🎉\n"
-            f"You guessed the word {word_to_guess.upper()} correctly!\n"
+            f" {word_to_guess.upper()} correctly!\n"
             f"🏆 You earned 1 point!\n"
             f"📊 Your total score: {user_score}\n"
-            f"🌍 Your global rank: #{user_rank}"
+            f"🌍 Your global rank: #{user_rank}\n"
             f"📖 **Definition of the word:** {definition}"
         )
 
