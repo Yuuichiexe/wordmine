@@ -41,7 +41,93 @@ def add_served_chat(chat_id: int):
         print(f"🆕 New Chat Added: {chat_id}")  # ✅ Print chat ID when added
 
 
-# ** Leaderboard and Score Management **  
+# Users Global and chat scores 
+
+
+def get_user_score(user_id):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT score FROM global_scores WHERE user_id = ?", (user_id,))
+    row = c.fetchone()
+    conn.close()
+    return row["score"] if row else 0  # Default to 0 if user not found
+
+# Get user's current score in a chat
+def get_chat_user_score(chat_id, user_id):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("SELECT score FROM chat_scores WHERE chat_id = ? AND user_id = ?", (chat_id, user_id))
+    row = c.fetchone()
+    conn.close()
+    return row["score"] if row else 0  # Default to 0 if user not found
+
+# Add points to a user globally
+def add_points(user_id, points):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO global_scores (user_id, score) VALUES (?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET score = score + ?
+    """, (user_id, points, points))
+    conn.commit()
+    conn.close()
+
+# Deduct points from a user globally (without going negative)
+def deduct_points(user_id, points):
+    conn = get_connection()
+    c = conn.cursor()
+    current_score = get_user_score(user_id)
+    new_score = max(0, current_score - points)  # Prevent negative points
+    c.execute("UPDATE global_scores SET score = ? WHERE user_id = ?", (new_score, user_id))
+    conn.commit()
+    conn.close()
+
+# Update global score
+def update_global_score(user_id, points=1):
+    add_points(user_id, points)  # This function now handles global score updates
+
+# Get user balance (alias of get_user_score)
+def get_user_balance(user_id):
+    return get_user_score(user_id)
+
+# Update chat-specific score
+def update_chat_score(chat_id, user_id, points=1):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("""
+        INSERT INTO chat_scores (chat_id, user_id, score) VALUES (?, ?, ?)
+        ON CONFLICT(chat_id, user_id) DO UPDATE SET score = score + ?
+    """, (chat_id, user_id, points, points))
+    conn.commit()
+    conn.close()
+
+# Deduct points from a user's chat-specific score
+def deduct_chat_points(chat_id, user_id, points):
+    conn = get_connection()
+    c = conn.cursor()
+    current_score = get_chat_user_score(chat_id, user_id)
+    new_score = max(0, current_score - points)  # Prevent negative points
+    c.execute("UPDATE chat_scores SET score = ? WHERE chat_id = ? AND user_id = ?", (new_score, chat_id, user_id))
+    conn.commit()
+    conn.close()
+
+
+
+def get_user_points(user_id):  
+    return get_user_score(user_id)
+
+# Update both global and chat leaderboards
+def update_user_points(user_id, chat_id, points):
+    if points > 0:
+        add_points(user_id, points)  # Global leaderboard update
+        update_chat_score(chat_id, user_id, points)  # Chat leaderboard update
+    else:
+        deduct_points(user_id, abs(points))  # Global leaderboard update
+        deduct_chat_points(chat_id, user_id, abs(points))  # Chat leaderboard update
+
+
+
+#  Leaderboard and Score Management 
 def update_global_score(user_id: int, points: int = 1):
     global_scores.update_one(
         {"user_id": user_id},
