@@ -120,12 +120,12 @@ def update_chat_score(chat_id: int, user_id: int, points: int = 1):
     updated_user = chat_scores.find_one({"chat_id": chat_id, "user_id": user_id})
     print(f"Updated Chat Score: {updated_user}")  # Debugging output
 
-def get_global_leaderboard(limit: int = 10):
-    leaderboard = list(global_scores.find({}, {"_id": 0, "user_id": 1, "score": 1})
-                        .sort("score", DESCENDING)
-                        .limit(limit))
-    print(f"🔍 Global Leaderboard Retrieved: {leaderboard}")  # Debugging Output
-    return leaderboard
+
+def get_global_leaderboard():
+    leaderboard = list(mongo_db.global_scores.find({}, {"user_id": 1, "score": 1}))
+    leaderboard = sorted(leaderboard, key=lambda x: x["score"], reverse=True)  # Ensure sorting
+    return [(entry["user_id"], entry["score"]) for entry in leaderboard]  # Return correct format
+
 
 def get_chat_leaderboard(chat_id: int, limit: int = 10):
     leaderboard = list(chat_scores.find({"chat_id": chat_id}, {"_id": 0, "user_id": 1, "score": 1})
