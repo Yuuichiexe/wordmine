@@ -93,9 +93,10 @@ async def handle_challenge(client, message):
     ]
 
     await message.reply(
+        f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n",
         f"🎯 **{message.from_user.mention} has challenged [{opponent_id}](tg://user?id={opponent_id})!**\n"
         f"💰 **Bet Amount:** `{bet_amount}` points\n\n"
-        "🔢 *Challenger, select a word length:*",
+        "🔢 **Challenger, select a word length**:",
         reply_markup=InlineKeyboardMarkup(buttons),
         quote=True
     )
@@ -124,8 +125,11 @@ async def select_challenge_length(client, callback_query):
     ]
 
     await callback_query.message.edit_text(
-        f"✅ **{callback_query.from_user.mention} selected a {word_length}-letter word!**\n"
-        f"👤 **[{opponent_id}](tg://user?id={opponent_id})**, do you accept?",
+        f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n"
+        f"👤**Hey [{opponent_id}](tg://user?id={opponent_id})**\n"
+        f"🙅‍♂**User {callback_query.from_user.mention} challenged you**\n"
+        f"📝**User selected a {word_length}-letter Game**\n"
+        f"🔐**Do you accept this Challenge?**\n",
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
@@ -151,7 +155,7 @@ async def accept_challenge(client, callback_query):
     challenger_data[challenger_id]["word"] = word
 
     await callback_query.message.edit_text(
-        f"🔥 **The challenge has started!**\n"
+        f"⚔️ **THE CHALLENGE HAS STARTED!**\n\n"
         f"🔤 **Word length:** `{word_length}`\n"
         f"💰 **Bet Pool:** `{bet_amount * 2} points`\n"
         f"🤔 *Both players, start guessing!*"
