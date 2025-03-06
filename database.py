@@ -43,14 +43,10 @@ def add_served_chat(chat_id: int):
 
 # Users Global and chat scores 
 
-
 def get_user_score(user_id):
-    conn = get_connection()
-    c = conn.cursor()
-    c.execute("SELECT score FROM global_scores WHERE user_id = ?", (user_id,))
-    row = c.fetchone()
-    conn.close()
-    return row["score"] if row else 0  # Default to 0 if user not found
+    user = global_scores.find_one({"user_id": user_id}, {"_id": 0, "score": 1})
+    return user["score"] if user else 0  # Default to 0 if user not found
+
 
 # Get user's current score in a chat
 def get_chat_user_score(chat_id, user_id):
