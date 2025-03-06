@@ -1,7 +1,7 @@
 from pymongo import MongoClient, ASCENDING, DESCENDING
 
 # MongoDB Connection
-DATABASE_URL = "mongodb+srv://Play:music@cluster0.izvyz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URL = "mongodb+srv://Play:music@cluster0.cooa2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(DATABASE_URL)
 db = client["wordmine"]
 
