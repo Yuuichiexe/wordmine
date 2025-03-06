@@ -131,7 +131,7 @@ async def select_challenge_length(client, callback_query):
         f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n"
         f"👤**Hey [{opponent_id}](tg://user?id={opponent_id})**\n"
         f"🙅‍♂**User {callback_query.from_user.mention} challenged you**\n"
-        f"📝**Challenger selected a {word_length}-letter Game**\n"
+        f"📝**User selected a {word_length}-letter Game**\n"
         f"💰**With a bet amount of {bet_amount}**\n"
         f"🔐**Do you accept this Challenge?**\n",
         reply_markup=InlineKeyboardMarkup(buttons)
