@@ -183,6 +183,7 @@ async def select_new_game_length(client, callback_query):
     data = callback_query.data.split("_")
     word_length = int(data[2])
     user_id = int(data[3])
+    chat_id = callback_query.message.chat.id
 
     if user_id != callback_query.from_user.id:
         await callback_query.answer("⚠️ This selection is not for you!", show_alert=True)
@@ -191,7 +192,7 @@ async def select_new_game_length(client, callback_query):
     # Generate a word
     word = random.choice(word_lists[word_length])
       # Store active game
-    group_games[user_id] = {
+    group_games[chat_id] = {
     "word": word,
     "length": word_length,
     "used_words": set(),
@@ -250,7 +251,7 @@ async def process_guess(client: Client, message: Message):
             return  # Stop further processing since this was a challenge game
 
     # If not a challenge game, check for a normal /new game
-    if user_id not in group_games:
+    if chat_id not in group_games:
         return  # No active game in this group
 
     word_to_guess = group_games[user_id]["word"]
