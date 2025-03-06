@@ -93,7 +93,7 @@ async def handle_challenge(client, message):
     ]
 
     await message.reply(
-        f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n",
+        f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n"
         f"🎯 **{message.from_user.mention} has challenged [{opponent_id}](tg://user?id={opponent_id})!**\n"
         f"💰 **Bet Amount:** `{bet_amount}` points\n\n"
         "🔢 **Challenger, select a word length**:",
