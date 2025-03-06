@@ -44,11 +44,11 @@ def fetch_word_definition(word):
         if isinstance(data, list) and "meanings" in data[0]:
             meanings = data[0]["meanings"]
             first_definition = meanings[0]["definitions"][0]["definition"]
-            return f"📝 <blockquote>{first_definition}</blockquote>"
+            return f"{first_definition}"
         else:
-            return "📝 <blockquote>No definition available.</blockquote>"
+            return "No definition available."
     except requests.RequestException:
-        return "📝 <blockquote>No definition available.</blockquote>"
+        return "No definition available."
 
 
 
@@ -324,7 +324,7 @@ async def process_guess(client: Client, message: Message):
             f"🌍 Your global rank: #{user_rank}\n"
             f"📖 **Definition of the word:**"
             f"{quoted_definition}",
-            parse_mode=ParseMode.MARKDOWN
+            parse_mode=ParseMode.MARKDOWNV2
         )
 
 @app.on_message(filters.command("leaderboard"))
