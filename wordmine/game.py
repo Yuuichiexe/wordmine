@@ -34,13 +34,16 @@ def fetch_words(word_length, max_words=50):
 
 
 def fetch_word_definition(word):
-    """Fetch the definition of the word using the Datamuse API."""
+    """Fetch the definition of the word using a dictionary API."""
     try:
-        response = requests.get(f"https://api.datamuse.com/words?ml={word}", timeout=5)
+        response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}", timeout=5)
         response.raise_for_status()
         data = response.json()
-        if data:
-            return data[0].get('defs', ['No definition available.'])[0]
+
+        if isinstance(data, list) and "meanings" in data[0]:
+            meanings = data[0]["meanings"]
+            first_definition = meanings[0]["definitions"][0]["definition"]
+            return first_definition
         else:
             return "No definition available."
     except requests.RequestException:
