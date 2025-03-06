@@ -207,7 +207,7 @@ async def select_new_game_length(client, callback_query):
     )
 
 
-@app.on_message(filters.text & ~filters.command(["new", "leaderboard", "chatleaderboard", "end", "help", "start" "challenge", "stats"]))
+@app.on_message(filters.text & ~filters.command(["new", "leaderboard", "chatleaderboard", "end", "help", "start" "challenge", "stats", "broadcast"]))
 async def process_guess(client: Client, message: Message):
     """Handles both normal game and challenge mode guesses."""
     chat_id = message.chat.id
