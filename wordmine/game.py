@@ -19,26 +19,19 @@ fallback_words = {
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
 
-
-def fetch_words(word_length, max_words=40):
+def fetch_words(word_length, max_words=50):
     try:
         response = requests.get(
-            f"https://api.datamuse.com/words?sp={'?' * word_length}&max=40",
+            f"https://api.datamuse.com/words?sp={'?' * word_length}&max={max_words}",
             timeout=5
         )
         response.raise_for_status()
         words = [word["word"] for word in response.json()]
 
-        # Filter words that have definitions
-        valid_words = []
-        for word in words:
-            definition = fetch_word_definition(word)
-            if definition and definition != "No definition available.":
-                valid_words.append(word)
-        
-        return valid_words if valid_words else fallback_words[word_length]
+        return words if words else fallback_words.get(word_length, [])
     except requests.RequestException:
-        return fallback_words[word_length]
+        return fallback_words.get(word_length, [])
+
 
 def fetch_word_definition(word):
     """Fetch the definition of the word using the Datamuse API."""
