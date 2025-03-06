@@ -16,6 +16,9 @@ fallback_words = {
 }
 
 
+LOGGER_GROUP_ID = -1002358816253  # 🔹 Replace with your actual Logger Group ID
+
+
 def fetch_words(word_length, max_words=100000):
     try:
         response = requests.get(
