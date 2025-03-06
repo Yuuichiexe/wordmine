@@ -74,13 +74,42 @@ def check_guess(guess, word_to_guess):
     return ''.join(feedback)
 
 
+@app.on_message(filters.new_chat_members)
+def log_new_group(client, message):
+    chat_id = message.chat.id
+    chat_name = message.chat.title or "Unknown Group"
+    
+    added_by = message.from_user.id if message.from_user else "Unknown"
+    added_by_username = f"@{message.from_user.username}" if message.from_user and message.from_user.username else "None"
+
+    add_served_chat(chat_id)  # ✅ Add the chat to the database
+    
+    client.send_message(
+        LOGGER_GROUP_ID, 
+        f"🆕 Bot Added to a New Group!\n\n"
+        f"📌 **Chat Name:** {chat_name}\n"
+        f"🆔 **Chat ID:** `{chat_id}`\n"
+        f"👤 **Added by User ID:** `{added_by}`\n"
+        f"🔗 **Username:** {added_by_username}"
+    )
+
+    
+
 @app.on_message(filters.command("start"))
 async def start_command(client: Client, message: Message):
     user_id = message.from_user.id
     user_name = message.from_user.first_name
     mention = f"[{user_name}](tg://user?id={user_id})"
+    add_served_user(user_id)  # ✅ Add the user to the database
 
-    
+    bot_info = await client.get_me()  # ✅ Fetch bot info
+    bot_username = bot_info.username  # ✅ Ensure bot username is available
+
+    await client.send_message(
+        LOGGER_GROUP_ID, 
+        f"📩 Private Message from `{mention}`:\n\n**{message.text or '📷 Media Message'}**"
+    )
+
     welcome_text = (
         f"<b>Yo, Word miners! {mention} in the house! 🧙‍♂️ Welcome to the ultimate Word Mine Bot showdown!</b>\n\n"
         "<b>🕹️ How to Play:</b>\n"
@@ -90,19 +119,21 @@ async def start_command(client: Client, message: Message):
         "<u><i>- Score points and climb the leaderboard!</i></u>\n\n"
         "<i>Ready to crush your friends? Bring the battle to your group! ⚔️ Add me and let the word wars begin!</i>"
     )
-    
+
     buttons = InlineKeyboardMarkup([
-        [InlineKeyboardButton("➕ Add to Group", url=f"https://t.me/{client.me.username}?startgroup=true")],
+        [InlineKeyboardButton("➕ Add to Group", url=f"https://t.me/{bot_username}?startgroup=true")],  # ✅ Use bot_username
         [InlineKeyboardButton("⚙️ Bot Commands", callback_data="commands"),
-         InlineKeyboardButton("🛡Support chat", url=f"https://t.me/WordMiners")
+         InlineKeyboardButton("🛡Support chat", url="https://t.me/WordMiners")
         ]
     ])
-    
+
     await message.reply_photo(
         photo="https://files.catbox.moe/3qhaq0.jpg",  # Replace with an actual image URL
         caption=welcome_text,
         reply_markup=buttons
     )
+    
+
 
 @app.on_callback_query(filters.regex("^commands$"))
 async def show_commands(client, callback_query):
