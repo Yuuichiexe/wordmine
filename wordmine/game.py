@@ -3,7 +3,7 @@ import os
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
-from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard
+from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard, add_served_user, add_served_chat
 from wordmine import app
 from wordmine.challenge import *
 from wordmine.cd import challenger_data
