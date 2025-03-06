@@ -324,7 +324,7 @@ async def process_guess(client: Client, message: Message):
             f"🌍 Your global rank: #{user_rank}\n"
             f"📖 **Definition of the word:**"
             f"{quoted_definition}",
-            parse_mode=ParseMode.MARKDOWN_V2
+            parse_mode="markdown_v2"
         )
 
 @app.on_message(filters.command("leaderboard"))
