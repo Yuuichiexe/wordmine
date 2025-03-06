@@ -20,7 +20,7 @@ LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
 
 
-def fetch_words(word_length, max_words=100000):
+def fetch_words(word_length, max_words=200):
     try:
         response = requests.get(
             f"https://api.datamuse.com/words?sp={'?' * word_length}&max=1000",
