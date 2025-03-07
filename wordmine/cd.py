@@ -8,25 +8,22 @@ pyro = pyrogram.__version__
 challenger_data = {}
 
 fallback_words = {
-    4: [
-    "play", "word", "game", "chat", "abet", "bark", "card", "dart", "earn", "fade", 
-    "gaze", "hail", "idea", "jade", "keen", "lamb", "mild", "nest", "oath", "pace", 
-    "quiz", "rage", "salt", "tame", "undo", "vast", "wade", "xray", "yarn", "zeal", 
-    "afar", "bend", "clad", "dine", "emit", "flee", "glim", "hush", "inch", "jolt", 
-    "knot", "lure", "moth", "numb", "omit", "pond", "quip", "rift", "sage", "tide", 
-    "apex", "bane", "cove", "dusk", "ebb", "fawn", "gale", "hymn", "isle", "jest", 
-    "kale", "loom", "mire", "nook", "ogle", "pith", "quay", "rove", "sear", "trek", 
-    "veto", "wane", "yoke", "zest", "alms", "brim", "cusp", "dolt", "fret", "grit", 
-    "hewn", "idle", "knob", "limp", "mend", "nape", "oust", "pry", "raze", "sift", 
-    "taut", "vial", "writ", "zany", "akin", "blot", "chop", "damp", "envy", "flap", 
-    "gush", "haze", "inky", "krill", "lisp", "moat", "nope", "opal", "pact", "quip", 
-    "rant", "scum", "twit", "urge", "vain", "whiz", "xyst", "yelp", "zinc", "arch", 
-    "blur", "crux", "deft", "fizz", "glow", "harp", "itch", "judo", "keto", "lame", 
-    "muse", "nude", "oxen", "peck", "skim", "toil", "vice", "wiry", "yolk", "zaps", 
-    "axis", "boil", "curl", "dare", "etch", "flaw", "glum", "honk", "irks", "jamb", 
-    "keel", "lurk", "mock", "nigh", "ooze", "poke", "roar", "spit", "tarp", "unto", 
-    "wage"
-],
+    4: ['play', 'word', 'game', 'chat', 'abet', 'bark', 'card', 'dart', 'earn', 'fade', 
+ 'gaze', 'hail', 'idea', 'jade', 'keen', 'lamb', 'mild', 'nest', 'oath', 'pace', 
+ 'quiz', 'rage', 'salt', 'tame', 'undo', 'vast', 'wade', 'yarn', 'zeal', 'afar', 
+ 'bend', 'clad', 'dine', 'emit', 'flee', 'hush', 'inch', 'jolt', 'knot', 'lure', 
+ 'moth', 'numb', 'omit', 'pond', 'quip', 'rift', 'sage', 'tide', 'apex', 'bane', 
+ 'cove', 'dusk', 'fawn', 'gale', 'hymn', 'isle', 'jest', 'kale', 'loom', 'mire', 
+ 'nook', 'ogle', 'pith', 'quay', 'rove', 'sear', 'trek', 'veto', 'wane', 'yoke', 
+ 'zest', 'alms', 'brim', 'cusp', 'dolt', 'fret', 'grit', 'hewn', 'idle', 'knob', 
+ 'limp', 'mend', 'nape', 'oust', 'pry', 'raze', 'sift', 'taut', 'vial', 'writ', 
+ 'zany', 'akin', 'blot', 'chop', 'damp', 'envy', 'flap', 'gush', 'haze', 'inky', 
+ 'lisp', 'moat', 'opal', 'pact', 'rant', 'scum', 'twit', 'urge', 'vain', 'whiz', 
+ 'yelp', 'zinc', 'arch', 'blur', 'crux', 'deft', 'fizz', 'glow', 'harp', 'itch', 
+ 'judo', 'keto', 'lame', 'muse', 'nude', 'oxen', 'peck', 'skim', 'toil', 'vice', 
+ 'wiry', 'yolk', 'zaps', 'axis', 'boil', 'curl', 'dare', 'etch', 'flaw', 'glum', 
+ 'honk', 'irks', 'jamb', 'keel', 'lurk', 'mock', 'nigh', 'ooze', 'poke', 'roar', 
+ 'spit', 'tarp', 'unto', 'wage'],
 
     5: [
     "guess", "brain", "smart", "think", "apple", "bread", "charm", "doubt", "eager", "flame",
@@ -98,31 +95,6 @@ fallback_words = {
 ]
 
 }
-
-
-not_in_dictionary = []
-API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/{}"
-
-def check_word(word):
-    """Check if a word exists in the dictionary API with retries."""
-    retries = 3  # Retry up to 3 times
-    for _ in range(retries):
-        try:
-            response = requests.get(API_URL.format(word), timeout=3)  # 3-second timeout
-            if response.status_code == 200:
-                return True  # Word found
-            else:
-                return False  # Word not found
-        except requests.exceptions.RequestException:
-            time.sleep(1)  # Wait before retrying
-    return False  # If all retries fail, consider the word not found
-
-for length, words in fallback_words.items():
-    for word in words:
-        if not check_word(word):
-            not_in_dictionary.append(word)
-
-print("Words not found in dictionary:", not_in_dictionary)
 
 
 print(f"PYRGOGRAM VERSION :- {pyro}")
