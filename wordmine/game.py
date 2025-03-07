@@ -308,7 +308,7 @@ async def process_guess(client: Client, message: Message):
         user_score = next((score for uid, score in leaderboard if uid == user_id), 0)
         user_rank = next((i + 1 for i, (uid, _) in enumerate(leaderboard) if uid == user_id), "Unranked")
 
-        print(f"🔍 Debug: User Score → {user_score}, User Rank → {user_rank}")  # Add this line for debugging
+        print(f"🔍 Debug:- User Score → {user_score}, User Rank → {user_rank}")  # Add this line for debugging
         
         del group_games[chat_id]
 
