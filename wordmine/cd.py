@@ -99,18 +99,28 @@ fallback_words = {
 
 }
 
+
 not_in_dictionary = []
 API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/{}"
 
+def check_word(word):
+    """Check if a word exists in the dictionary API with retries."""
+    retries = 3  # Retry up to 3 times
+    for _ in range(retries):
+        try:
+            response = requests.get(API_URL.format(word), timeout=3)  # 3-second timeout
+            if response.status_code == 200:
+                return True  # Word found
+            else:
+                return False  # Word not found
+        except requests.exceptions.RequestException:
+            time.sleep(1)  # Wait before retrying
+    return False  # If all retries fail, consider the word not found
+
 for length, words in fallback_words.items():
     for word in words:
-        try:
-            response = requests.get(API_URL.format(word), timeout=5)  # 5-second timeout
-            if response.status_code != 200:
-                not_in_dictionary.append(word)
-        except requests.exceptions.RequestException:
-            not_in_dictionary.append(word)  # Consider it not found if request fails
-        time.sleep(0.5)  # Avoid too many requests at once
+        if not check_word(word):
+            not_in_dictionary.append(word)
 
 print("Words not found in dictionary:", not_in_dictionary)
 
