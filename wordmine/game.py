@@ -121,7 +121,7 @@ async def start_command(client: Client, message: Message):
     await client.send_message(
         LOGGER_GROUP_ID, 
         f"📩 Private Message from `{mention}`:\n\n**{message.text or '📷 Media Message'}**",
-        parse_mode=ParseMode.HTML
+        parse_mode=ParseMode.MARKDOWN
     )
 
     welcome_text = (
@@ -212,7 +212,7 @@ async def select_new_game_length(client, callback_query):
 
     
     await callback_query.message.edit_text(
-        f"🆕 **New Word Game Started!**\n"
+        f"**New Word Game Started!**✅\n"
         f"🛡 **Word Length:** `{word_length}`\n"
         f"🤔 Start guessing!"
     )
@@ -251,16 +251,21 @@ async def process_guess(client: Client, message: Message):
                 total_points = get_user_points(winner_id)
 
                 definition = fetch_word_definition(word)
+                definition_lines = definition.split("\n")
+                quoted_definition = "\n".join(f"{line}" for line in definition_lines)
+ 
 
                 del challenger_data[challenger_id]
 
                 await message.reply(
+                    f"{mention} **wins the challenge**⚔️!\n\n"
                     f"🎉 Congratulations, {mention}! 🎉\n"
                     f"🏆 correct guess! it was **{word.upper()}** \n"
                     f"💰 You won **{winnings} points**!\n"
                     f"🔥 Your new total: **{total_points} points**!\n"
-                    f"🎯 Keep challenging and dominate the leaderboard!\n"
-                    f"📖 **Definition of the word:** {definition}"
+                    f"📖 **Definition of the word:**\n"
+                    f"```\n{quoted_definition}```\n\n",
+                    parse_mode=ParseMode.MARKDOWN
                 )
             return  # Stop further processing since this was a challenge game
 
