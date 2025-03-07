@@ -69,7 +69,32 @@ fallback_words = {
     "fabric", "famous", "farmer", "fathom", "feline", "fossil"
 ],
 
-    7: ["amazing", "thought", "journey", "fantasy"]
+    7: words_7 = [
+    "amazing", "thought", "journey", "fantasy", "balance", "captain", "densely", "embrace", "freight",
+    "gallery", "harvest", "imagine", "justice", "kingdom", "lantern", "machine", "natural", "opinion",
+    "passion", "quality", "recover", "shelter", "theatre", "uniform", "venture", "whisper", "zealous",
+    "absolve", "bargain", "clarify", "delight", "endless", "fragile", "genuine", "horizon", "insight",
+    "jackpot", "kinetic", "luscious", "magnify", "nurture", "outcome", "perform", "quieter", "respect",
+    "sincere", "trouble", "upright", "vibrant", "welcome", "yawning", "fashion", "coastal", "comical",
+    "ancient", "bizarre", "cherish", "default", "echelon", "fixture", "glamour", "hammock", "impulse",
+    "javelin", "knuckle", "lullaby", "mammoth", "nostril", "observe", "paddock", "quandry", "radiant",
+    "scratch", "tarnish", "utopia", "vagrant", "waffles", "xeroxed", "yttrium", "zippers", "attract",
+    "boycott", "combine", "dominate", "earnest", "fortune", "garland", "habitat", "iterate", "jostle",
+    "kindred", "lavish", "migrate", "nomadic", "obvious", "private", "quixote", "rapture", "senator",
+    "torment", "usually", "violent", "waylaid", "zealots", "acutely", "arsenal", "benefit", "calming", 
+    "destiny", "elastic", "fabulous", "gravity", "hazards", "imitate", "joining", "keynote", "lengths",
+    "majesty", "musical", "nostalgic", "obliged", "patient", "queries", "radical", "scenery", "therapy", 
+    "typical", "urbane", "vantage", "warding", "xanthan", "zeolite", "advisor", "boister", "caramel",
+    "dazzles", "effaced", "fumbles", "glazier", "haughty", "implied", "jellify", "kashmir", "looming", 
+    "mascots", "nouveau", "ostrich", "precise", "quizzed", "retinal", "terrier", "ulterior", "varying", 
+    "warrant", "xenon", "yielding", "abiding", "adrift", "affable", "banquet", "bedding", "besiege",
+    "bravado", "breeder", "brittle", "broiler", "calypso", "carbine", "chaotic", "chronic", "cloning", 
+    "complex", "contend", "cordial", "cowhand", "cramped", "cubical", "cunning", "cupcake", "cyclone",
+    "dancing", "daring", "daytime", "deceive", "defiant", "demonic", "deposit", "despair", "distant",
+    "ditches", "dizzying", "doctors", "dodging", "dreamer", "drowsily", "dugouts", "dynamic", "eagerly",
+    "earshot", "ecstasy", "elastic", "elegant", "elevate", "eloping"
+]
+
 }
 
 
