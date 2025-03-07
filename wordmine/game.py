@@ -1,3 +1,4 @@
+import time
 import random
 import os
 import requests
@@ -24,16 +25,15 @@ def fetch_word_definition(word):
     try:
         response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}", timeout=5)
         response.raise_for_status()
+        time.sleep(0.1)  # Delay to avoid API rate-limiting
         data = response.json()
-
         if isinstance(data, list) and "meanings" in data[0]:
-            meanings = data[0]["meanings"]
-            first_definition = meanings[0]["definitions"][0]["definition"]
-            return first_definition if first_definition else "No definition available."
+            return data[0]["meanings"][0]["definitions"][0]["definition"]
         else:
             return "No definition available."
     except requests.RequestException:
         return "No definition available."
+
 
 def fetch_words(word_length, max_words=1000):
     words = set()
