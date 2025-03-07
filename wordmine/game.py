@@ -1,7 +1,7 @@
 import random
 import os
 import requests
-from telegram.constants import ParseMode as PTBParseMode
+from pyrogram.enmus import ParseMode
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard, add_served_user, add_served_chat
 from wordmine import app
@@ -322,8 +322,8 @@ async def process_guess(client: Client, message: Message):
             f"📊 Your total score: {user_score}\n"
             f"🌍 Your global rank: #{user_rank}\n"
             f"📖 **Definition of the word:**"
-            f"{quoted_definition}",
-            parse_mode=PTBParseMode.MARKDOWN_V2
+            f"```\n{quoted_definition}```\n",
+            parse_mode=ParseMode.MARKDOWN
         )
 
 @app.on_message(filters.command("leaderboard"))
