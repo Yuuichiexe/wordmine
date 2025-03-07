@@ -1,7 +1,6 @@
 import random
 import os
 import requests
-from pyrogram import *
 from telegram.constants import ParseMode as PTBParseMode
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard, add_served_user, add_served_chat
