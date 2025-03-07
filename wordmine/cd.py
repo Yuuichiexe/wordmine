@@ -24,9 +24,30 @@ fallback_words = {
     "axis", "boil", "curl", "dare", "etch", "flaw", "glum", "honk", "irks", "jamb", 
     "keel", "lurk", "mock", "nigh", "ooze", "poke", "roar", "spit", "tarp", "unto", 
     "wage"
-]
+],
 
-    5: ["guess", "brain", "smart", "think"],
+    5: [
+    "guess", "brain", "smart", "think", "apple", "bread", "charm", "doubt", "eager", "flame",
+    "globe", "heart", "image", "joker", "knock", "lemon", "mango", "nerve", "ocean", "peace",
+    "queen", "rider", "storm", "table", "urban", "vivid", "wrist", "xenon", "yield", "zebra",
+    "angel", "blaze", "craft", "dream", "elite", "fancy", "grape", "haste", "ivory", "jolly",
+    "kneel", "lunar", "march", "novel", "onion", "power", "quiet", "raven", "scope", "trust",
+    "amber", "beach", "candy", "daisy", "eagle", "frost", "glide", "inlet", "jumpy", "koala",
+    "latch", "mercy", "noble", "orbit", "plush", "quirk", "rusty", "spine", "trick", "unity",
+    "vowel", "whale", "xylem", "youth", "zesty", "adobe", "bloom", "cabin", "dwell", "exile",
+    "fiery", "gloom", "hover", "ideal", "knead", "lyric", "mirth", "nudge", "olive", "piano",
+    "quilt", "risky", "shiny", "torch", "udder", "vigor", "woven", "zonal", "asset", "brisk",
+    "chill", "dealt", "ethos", "flock", "grasp", "input", "knave", "latch", "mirth", "noble",
+    "optic", "plume", "quest", "risky", "scout", "tulip", "unite", "verge", "whisk", "xerox",
+    "yacht", "zoned", "amaze", "bison", "crisp", "drape", "eject", "flora", "glint", "imply",
+    "jumbo", "knoll", "lupin", "meaty", "nifty", "onset", "pouch", "roost", "swift", "tempo",
+    "undue", "vixen", "waist", "abbot", "brace", "choke", "deter", "eclat", "fraud", "gleam",
+    "hinge", "icily", "joust", "knees", "leash", "mince", "nerdy", "ounce", "proud", "rover",
+    "slant", "ulcer", "wager", "yells", "zonal", "alarm", "blunt", "creek", "drown", "exert",
+    "flint", "gravy", "hasty", "irony", "joint", "knack", "lymph", "mount", "nymph", "overt",
+    "quash", "ranch", "spore", "tacit", "uncut", "wrath", "yeast"
+],
+
     6: ["random", "puzzle", "letter", "breeze"],
     7: ["amazing", "thought", "journey", "fantasy"]
 }
