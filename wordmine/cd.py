@@ -48,7 +48,27 @@ fallback_words = {
     "quash", "ranch", "spore", "tacit", "uncut", "wrath", "yeast"
 ],
 
-    6: ["random", "puzzle", "letter", "breeze"],
+    6: [
+    "breeze", "baffle", "brogue", "chintz", "crisps", "dactyl", "decoct", "effigy", "elicit",
+    "enigma", "engulf", "fickle", "fipple", "fjords", "frugal", "gimmal", "glozed", "hassle",
+    "hoyden", "jabber", "jigsaw", "jungle", "lagoon", "lummox", "mumble", "nuzzle", "obtuse",
+    "ocelot", "piffle", "quasar", "riffle", "squawk", "strive", "thwack", "uptalk", "vexing",
+    "whelms", "wimple", "yaffle", "zephyr", "abduct", "banter", "candid", "debate", "fabric",
+    "galaxy", "ignite", "jargon", "kernel", "lament", "mantle", "nectar", "pardon", "quaint",
+    "ransom", "safari", "tandem", "vacuum", "wander", "zealot", "abound", "beacon", "cajole",
+    "dainty", "fathom", "glisten", "hurdle", "influx", "jovial", "lucent", "mellow", "nurture",
+    "oblige", "plaque", "quiver", "reside", "seldom", "thrive", "unveil", "verbal", "whimsy",
+    "abacus", "badger", "cactus", "dagger", "falcon", "gadget", "hazard", "insect", "jacket",
+    "ladder", "magnet", "napkin", "pencil", "quartz", "rocket", "saddle", "tunnel", "violet",
+    "walnut", "anchor", "candle", "donkey", "engine", "goblin", "helmet", "island", "monkey",
+    "oyster", "parrot", "admire", "bakery", "ballot", "ballet", "barren", "beetle", "blazer",
+    "bounce", "brandy", "bridge", "bronze", "bundle", "butter", "canyon", "castle", "celery",
+    "cheese", "chorus", "clergy", "coffee", "cotton", "couple", "coyote", "cradle", "cruise",
+    "custom", "damage", "debate", "defeat", "depart", "desert", "divide", "donate", "dragon",
+    "drawer", "elegant", "embark", "emerge", "empire", "enrich", "escape", "exceed", "expose",
+    "fabric", "famous", "farmer", "fathom", "feline", "fossil"
+],
+
     7: ["amazing", "thought", "journey", "fantasy"]
 }
 
