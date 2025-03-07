@@ -1,3 +1,4 @@
+import time
 import requests 
 from wordmine import app 
 import pyrogram
@@ -99,17 +100,21 @@ fallback_words = {
 }
 
 not_in_dictionary = []
+API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/{}"
 
-# Check each word
 for length, words in fallback_words.items():
     for word in words:
-        url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
-        response = requests.get(url)
-        if response.status_code != 200:
-            not_in_dictionary.append(word)
+        try:
+            response = requests.get(API_URL.format(word), timeout=5)  # 5-second timeout
+            if response.status_code != 200:
+                not_in_dictionary.append(word)
+        except requests.exceptions.RequestException:
+            not_in_dictionary.append(word)  # Consider it not found if request fails
+        time.sleep(0.5)  # Avoid too many requests at once
 
-# Print words that have no definition
 print("Words not found in dictionary:", not_in_dictionary)
+
+
 print(f"PYRGOGRAM VERSION :- {pyro}")
 print("FALLBACK WORDS LOADED✅")
 print("CHALLENGER DATA LOADED✅")
