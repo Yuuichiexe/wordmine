@@ -13,6 +13,6 @@ fallback_words = {
 }
 
 
-print("PYRGOGRAM VERSION :- {pyro}")
+print(f"PYRGOGRAM VERSION :- {pyro}")
 print("FALLBACK WORDS LOADED✅")
 print("CHALLENGER DATA LOADED✅")
