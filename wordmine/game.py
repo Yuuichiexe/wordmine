@@ -19,19 +19,22 @@ fallback_words = {
 
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
-
 def fetch_word_definition(word):
-    """Fetch the definition of a word using DictionaryAPI."""
+    """Fetch the definition of the word using a dictionary API."""
     try:
         response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}", timeout=5)
         response.raise_for_status()
         data = response.json()
 
         if isinstance(data, list) and "meanings" in data[0]:
-            return True  # Word has a valid definition
+            meanings = data[0]["meanings"]
+            first_definition = meanings[0]["definitions"][0]["definition"]
+            return first_definition if first_definition else "No definition available."
+        else:
+            return "No definition available."
     except requests.RequestException:
-        pass
-    return False  # No definition found
+        return "No definition available."
+
 
 def fetch_words(word_length, max_words=10000):
     words = set()
