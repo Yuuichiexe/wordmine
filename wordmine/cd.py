@@ -69,7 +69,7 @@ fallback_words = {
     "fabric", "famous", "farmer", "fathom", "feline", "fossil"
 ],
 
-    7: words_7 = [
+    7: [
     "amazing", "thought", "journey", "fantasy", "balance", "captain", "densely", "embrace", "freight",
     "gallery", "harvest", "imagine", "justice", "kingdom", "lantern", "machine", "natural", "opinion",
     "passion", "quality", "recover", "shelter", "theatre", "uniform", "venture", "whisper", "zealous",
