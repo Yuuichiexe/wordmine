@@ -35,32 +35,25 @@ def fetch_word_definition(word):
     except requests.RequestException:
         return "No definition available."
 
-
-def fetch_words(word_length, max_words=10000):
+def fetch_words(word_length, max_words=1000):
     words = set()
-
-    for letter in string.ascii_lowercase:  # Loop through 'a' to 'z'
-        if len(words) >= max_words:
-            break
-
-        try:
+    
+    try:
+        for letter in string.ascii_lowercase:  
             response = requests.get(
                 f"https://api.datamuse.com/words?sp={letter + '?' * (word_length - 1)}&max={max_words//26}",
                 timeout=5
             )
             response.raise_for_status()
-            word_list = response.json()
+            raw_words = [word["word"] for word in response.json()]
+            
+            # Only keep words that have a definition
+            valid_words = [word for word in raw_words if word.isalpha() and len(word) == word_length and fetch_word_definition(word) != "No definition available."]
+            words.update(valid_words)
 
-            for word_data in word_list:
-                word = word_data["word"]
-                if word.isalpha() and len(word) == word_length and fetch_word_definition(word):
-                    words.add(word)
-                    print(f"✅ Fetched Word: {word}")  # Debugging: Print fetched words
-
-        except requests.RequestException:
-            continue  # Skip errors and move to the next letter
-
-    return list(words) if words else fallback_words.get(word_length, [])
+        return list(words) if words else fallback_words.get(word_length, [])
+    except requests.RequestException:
+        return fallback_words.get(word_length, [])
 
 # Fetch words for different lengths
 word_lists = {length: fetch_words(length) for length in fallback_words}
