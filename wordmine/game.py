@@ -20,49 +20,50 @@ fallback_words = {
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
 
-
-def fetch_words(word_length, max_words=10000):
-    words = set()
-    
-    try:
-        for letter in string.ascii_lowercase:  # Loop through 'a' to 'z'
-            response = requests.get(
-                f"https://api.datamuse.com/words?sp={letter + '?' * (word_length - 1)}&max={max_words//26}",
-                timeout=5
-            )
-            response.raise_for_status()
-            words.update(word["word"] for word in response.json())
-
-        return list(words) if words else fallback_words.get(word_length, [])
-    except requests.RequestException:
-        return fallback_words.get(word_length, [])
-
-
 def fetch_word_definition(word):
-    """Fetch the definition of the word using a dictionary API."""
+    """Fetch the definition of a word using DictionaryAPI."""
     try:
         response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}", timeout=5)
         response.raise_for_status()
         data = response.json()
 
         if isinstance(data, list) and "meanings" in data[0]:
-            meanings = data[0]["meanings"]
-            first_definition = meanings[0]["definitions"][0]["definition"]
-            return f"{first_definition}"
-        else:
-            return "No definition available."
+            return True  # Word has a valid definition
     except requests.RequestException:
-        return "No definition available."
+        pass
+    return False  # No definition found
 
+def fetch_words(word_length, max_words=10000):
+    words = set()
 
+    for letter in string.ascii_lowercase:  # Loop through 'a' to 'z'
+        if len(words) >= max_words:
+            break
+
+        try:
+            response = requests.get(
+                f"https://api.datamuse.com/words?sp={letter + '?' * (word_length - 1)}&max={max_words//26}",
+                timeout=5
+            )
+            response.raise_for_status()
+            word_list = response.json()
+
+            for word_data in word_list:
+                word = word_data["word"]
+                if word.isalpha() and len(word) == word_length and fetch_word_definition(word):
+                    words.add(word)
+                    print(f"✅ Fetched Word: {word}")  # Debugging: Print fetched words
+
+        except requests.RequestException:
+            continue  # Skip errors and move to the next letter
+
+    return list(words) if words else fallback_words.get(word_length, [])
 
 # Fetch words for different lengths
 word_lists = {length: fetch_words(length) for length in fallback_words}
 
 # Game data storage
 group_games = {}
-
-
 
 # Check if a word is valid
 
