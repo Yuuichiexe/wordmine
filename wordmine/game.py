@@ -11,7 +11,7 @@ from wordmine.challenge import *
 from wordmine.cd import challenger_data, fallback_words
 # Fallback words in case the API fails
 
-LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
+LOGGER_GROUP_ID = -1002358816253 # 🔹 Replace with your actual Logger Group ID
 
 
 def fetch_word_definition(word):
