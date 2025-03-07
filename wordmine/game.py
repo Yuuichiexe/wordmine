@@ -314,7 +314,7 @@ async def process_guess(client: Client, message: Message):
 
         definition = fetch_word_definition(word_to_guess)
         definition_lines = definition.split("\n")
-        quoted_definition = "\n".join(f"> {line}" for line in definition_lines)
+        quoted_definition = "\n".join(f"{line}" for line in definition_lines)
  
         await message.reply(
             f"🎉 Congratulations {mention}! 🎉\n"
