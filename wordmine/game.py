@@ -8,15 +8,8 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard, add_served_user, add_served_chat
 from wordmine import app
 from wordmine.challenge import *
-from wordmine.cd import challenger_data
+from wordmine.cd import challenger_data, fallback_words
 # Fallback words in case the API fails
-fallback_words = {
-    4: ["play", "word", "game", "chat"],
-    5: ["guess", "brain", "smart", "think"],
-    6: ["random", "puzzle", "letter", "breeze"],
-    7: ["amazing", "thought", "journey", "fantasy"]
-}
-
 
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
@@ -44,27 +37,14 @@ def fetch_word_definition(word):
         return "No definition available."
 
 
-def fetch_words(word_length, max_words=1000):
-    words = set()
-    
-    try:
-        for letter in string.ascii_lowercase:  
-            response = requests.get(
-                f"https://api.datamuse.com/words?sp={letter + '?' * (word_length - 1)}&max={max_words//26}",
-                timeout=5
-            )
-            response.raise_for_status()
-            raw_words = [word["word"] for word in response.json()]
-            
-            # Only keep words that have a definition
-            valid_words = [word for word in raw_words if word.isalpha() and len(word) == word_length and fetch_word_definition(word) != "No definition available."]
-            words.update(valid_words)
 
-        return list(words) if words else fallback_words.get(word_length, [])
-    except requests.RequestException:
-        return fallback_words.get(word_length, [])
+def fetch_words(word_length):
+    """Fetch words only from fallback_words dictionary."""
+    return fallback_words.get(word_length, [])
+    
 
 # Fetch words for different lengths
+
 word_lists = {length: fetch_words(length) for length in fallback_words}
 
 # Game data storage
