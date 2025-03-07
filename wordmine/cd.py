@@ -49,10 +49,10 @@ fallback_words = {
 
     6: [
     "breeze", "baffle", "brogue", "chintz", "crisps", "dactyl", "decoct", "effigy", "elicit",
-    "enigma", "engulf", "fickle", "fipple", "fjords", "frugal", "gimmal", "glozed", "hassle",
-    "hoyden", "jabber", "jigsaw", "jungle", "lagoon", "lummox", "mumble", "nuzzle", "obtuse",
-    "ocelot", "piffle", "quasar", "riffle", "squawk", "strive", "thwack", "uptalk", "vexing",
-    "whelms", "wimple", "yaffle", "zephyr", "abduct", "banter", "candid", "debate", "fabric",
+    "enigma", "engulf", "fickle", "fjords", "frugal", "hassle",
+    "jabber", "jigsaw", "jungle", "lagoon", "lummox", "mumble", "nuzzle", "obtuse",
+    "ocelot", "quasar", "squawk", "strive", "thwack", "vexing",
+    "zephyr", "abduct", "banter", "candid", "debate", "fabric",
     "galaxy", "ignite", "jargon", "kernel", "lament", "mantle", "nectar", "pardon", "quaint",
     "ransom", "safari", "tandem", "vacuum", "wander", "zealot", "abound", "beacon", "cajole",
     "dainty", "fathom", "glisten", "hurdle", "influx", "jovial", "lucent", "mellow", "nurture",
