@@ -20,16 +20,20 @@ fallback_words = {
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
 
-def fetch_words(word_length, max_words=10000):
-    try:
-        response = requests.get(
-            f"https://api.datamuse.com/words?sp={'?' * word_length}&max={max_words}",
-            timeout=5
-        )
-        response.raise_for_status()
-        words = [word["word"] for word in response.json()]
 
-        return words if words else fallback_words.get(word_length, [])
+def fetch_words(word_length, max_words=10000):
+    words = set()
+    
+    try:
+        for letter in string.ascii_lowercase:  # Loop through 'a' to 'z'
+            response = requests.get(
+                f"https://api.datamuse.com/words?sp={letter + '?' * (word_length - 1)}&max={max_words//26}",
+                timeout=5
+            )
+            response.raise_for_status()
+            words.update(word["word"] for word in response.json())
+
+        return list(words) if words else fallback_words.get(word_length, [])
     except requests.RequestException:
         return fallback_words.get(word_length, [])
 
@@ -130,7 +134,8 @@ async def start_command(client: Client, message: Message):
 
     await client.send_message(
         LOGGER_GROUP_ID, 
-        f"📩 Private Message from `{mention}`:\n\n**{message.text or '📷 Media Message'}**"
+        f"📩 Private Message from `{mention}`:\n\n**{message.text or '📷 Media Message'}**",
+        parse_mode=ParseMode.HTML
     )
 
     welcome_text = (
