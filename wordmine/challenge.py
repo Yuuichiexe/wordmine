@@ -94,9 +94,10 @@ async def handle_challenge(client, message):
 
     await message.reply(
         f"**⚔️NEW CHALLENGE IN THIS CHAT**\n\n"
-        f"🎯 **{message.from_user.mention} has challenged [{opponent_id}](tg://user?id={opponent_id})!**\n"
+        f"🔨 **Challenger {message.from_user.mention} has challenged \n"
+        f"👤 **User [{opponent_id}](tg://user?id={opponent_id})!**\n"
         f"💰 **Bet Amount:** `{bet_amount}` points\n"
-        "🔢 **Challenger, select a word length**:",
+        f"🔢 **Challenger, select a word length**:",
         reply_markup=InlineKeyboardMarkup(buttons),
         quote=True
     )
