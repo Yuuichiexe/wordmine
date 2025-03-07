@@ -1,7 +1,7 @@
 import random
 import os
 import requests
-
+import string
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from database import update_global_score, update_chat_score, get_global_leaderboard, get_chat_leaderboard, add_served_user, add_served_chat
