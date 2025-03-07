@@ -20,18 +20,27 @@ fallback_words = {
 
 LOGGER_GROUP_ID = -1002267039087 # 🔹 Replace with your actual Logger Group ID
 
+
 def fetch_word_definition(word):
-    """Fetch the definition of the word using a dictionary API."""
+    """Fetch the definition of a word using an API with error handling."""
+    url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
+    
     try:
-        response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}", timeout=5)
+        response = requests.get(url, timeout=3)  # Reduce timeout to 3 seconds
         response.raise_for_status()
-        time.sleep(0.1)  # Delay to avoid API rate-limiting
         data = response.json()
+
         if isinstance(data, list) and "meanings" in data[0]:
             return data[0]["meanings"][0]["definitions"][0]["definition"]
         else:
             return "No definition available."
-    except requests.RequestException:
+
+    except requests.Timeout:
+        print(f"Timeout: {word} took too long to fetch.")
+        return "No definition available."
+
+    except requests.RequestException as e:
+        print(f"Request error for {word}: {e}")
         return "No definition available."
 
 
