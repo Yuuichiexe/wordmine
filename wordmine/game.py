@@ -201,10 +201,11 @@ async def process_guess(client, message):
 
             await message.reply(
                 f"🎉 Congratulations {mention}! 🎉\n"
-                f"You guessed the word {word_to_guess.upper()} correctly!\n"
+                f"🔖 Correct guess! it was{word_to_guess.upper()}\n"
                 f"🏆 You earned 1 point!\n"
                 f"📊 Your total score: {user_score}\n"
                 f"🌍 Your global rank: #{user_rank}\n"
+                f"📖 Definition of the word:\n"
                 f"```\n{definition}```\n\n",
                 parse_mode=ParseMode.MARKDOWN
             )
