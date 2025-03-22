@@ -165,11 +165,14 @@ async def select_new_game_length(client, callback_query):
     }
 
     print(f"DEBUG: Game started in chat {chat_name} with word {word}")
+
     asyncio.create_task(client.send_message(
-        LOGGER_GROUP_ID,
-        f"**New Game Event**\n\nGame started in chat - \n```{chat_name}```\n\nWith the word - \n```{word}```",
-        parse_mode=ParseMode.MARKDOWN
-    ))
+    LOGGER_GROUP_ID,
+    f"**New Game Event**\n\n"
+    f"Game started in chat - `{chat_name}`\n"
+    f"With the word - `{word}`",
+    parse_mode=ParseMode.MARKDOWN
+  ))
 
     
     await callback_query.message.edit_text(f"**New Game Started!** ✅\n🛡 **Word Length:** `{word_length}`\n🤔 Start guessing!")
