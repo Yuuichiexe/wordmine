@@ -170,9 +170,9 @@ async def select_new_game_length(client, callback_query):
     LOGGER_GROUP_ID,
     f"**New Game Event**\n\n"
     f"Game started in chat -\n"
-    f"```{chat_name}```\n"
+    f"`{chat_name}`\n"
     f"With the word -\n"
-    f"```{word}```",
+    f"`{word}`",
     parse_mode=ParseMode.MARKDOWN
   ))
 
