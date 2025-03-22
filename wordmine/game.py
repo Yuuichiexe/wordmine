@@ -33,16 +33,15 @@ async def fetch_word_definition(word):
             return "No definition available."
 
 
-
 async def is_valid_english_word(word):
-    """Check if a word is valid using an external API with caching."""
+    """Check if a word is valid using an external API."""
     url = f"https://api.datamuse.com/words?sp={word}"
-    try:
-        async with session.get(url, timeout=3) as response:
-            return response.status == 200
-    except:
-        return False  # Assume invalid if API request fails
-    return False
+    async with aiohttp.ClientSession() as session:  # ✅ Use local session
+        try:
+            async with session.get(url, timeout=3) as response:
+                return response.status == 200
+        except:
+            return False  # Assume invalid if API request fails
     
 
 def check_guess(guess, word_to_guess):
