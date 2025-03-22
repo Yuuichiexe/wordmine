@@ -140,7 +140,7 @@ async def start_new_game(client, message):
 async def select_new_game_length(client, callback_query):
     """Starts a game with chosen word length."""
     data = callback_query.data.split("_")
-    chat_name = query.chat.title or "Unknown Group"
+    chat_name = callback_query.message.chat.title or "Unknown Group"
     word_length, user_id, chat_id = int(data[2]), int(data[3]), callback_query.message.chat.id
 
     if user_id != callback_query.from_user.id:
