@@ -132,6 +132,7 @@ async def back_to_start(client, callback_query):
 async def start_new_game(client, message):
     """New game selection with inline buttons."""
     user_id = message.from_user.id
+    chat_name = message.chat.title or "Unknown Group"
     buttons = [[InlineKeyboardButton(f"{i} Letters", callback_data=f"new_length_{i}_{user_id}")] for i in range(4, 8)]
     await message.reply("📌 **Select a word length:**", reply_markup=InlineKeyboardMarkup(buttons))
 
@@ -152,7 +153,11 @@ async def select_new_game_length(client, callback_query):
     "history": []
     }
 
-    print(f"DEBUG: Game started in chat {chat_id} with word {word}")
+    print(f"DEBUG: Game started in chat {chat_name} with word {word}")
+    asyncio.create_task(client.send_message(
+        LOGGER_GROUP_ID,
+        f"Game started in chat {chat_name} with word {word}"
+    ))
 
     
     await callback_query.message.edit_text(f"**New Game Started!** ✅\n🛡 **Word Length:** `{word_length}`\n🤔 Start guessing!")
