@@ -20,18 +20,18 @@ LOGGER_GROUP_ID = -1002358816253  # Replace with your actual Logger Group ID
 word_lists = {length: set(fallback_words[length]) for length in fallback_words}
 
 
-session = aiohttp.ClientSession()
-
 async def fetch_word_definition(word):
-    """Fetch word definition asynchronously with caching."""
+    """Fetch word definition asynchronously."""
     url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
-    try:
-        async with session.get(url, timeout=3) as response:
-            if response.status == 200:
-                data = await response.json()
-                return data[0]["meanings"][0]["definitions"][0]["definition"] if data else "No definition available."
-    except:
-        return "No definition available."
+    async with aiohttp.ClientSession() as session:  # ✅ Use local session
+        try:
+            async with session.get(url, timeout=3) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    return data[0]["meanings"][0]["definitions"][0]["definition"] if data else "No definition available."
+        except:
+            return "No definition available."
+
 
 
 async def is_valid_english_word(word):
