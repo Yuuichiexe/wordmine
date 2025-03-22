@@ -169,8 +169,10 @@ async def select_new_game_length(client, callback_query):
     asyncio.create_task(client.send_message(
     LOGGER_GROUP_ID,
     f"**New Game Event**\n\n"
-    f"Game started in chat - \n```{chat_name}```\n"
-    f"With the word - \n```{word}```",
+    f"Game started in chat -\n"
+    f"```{chat_name}```\n"
+    f"With the word -\n"
+    f"```{word}```",
     parse_mode=ParseMode.MARKDOWN
   ))
 
