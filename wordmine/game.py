@@ -61,17 +61,25 @@ def check_guess(guess, word_to_guess):
 
     return "".join(feedback)
 
+
 @app.on_message(filters.new_chat_members)
 async def log_new_group(client, message):
-    """Logs bot additions to groups asynchronously (non-blocking)."""
-    chat_id = message.chat.id
-    chat_name = message.chat.title or "Unknown Group"
-    add_served_chat(chat_id)
-    
-    asyncio.create_task(client.send_message(
-        LOGGER_GROUP_ID,
-        f"🆕 Bot Added!\n📌 **Chat:** {chat_name}\n🆔 **ID:** `{chat_id}`"
-    ))
+    """Logs bot additions to groups asynchronously."""
+    bot_id = (await client.get_me()).id  # Get bot's own user ID
+
+    for new_member in message.new_chat_members:
+        if new_member.id == bot_id:  # Check if the added user is the bot itself
+            chat_id = message.chat.id
+            chat_name = message.chat.title or "Unknown Group"
+
+            add_served_chat(chat_id)  # Track the new group in DB
+
+            await client.send_message(
+                LOGGER_GROUP_ID,
+                f"🆕 **Bot Added to a New Group!**\n📌 **Chat:** {chat_name}\n🆔 **ID:** `{chat_id}`"
+            )
+            break  # Stop further execution if the bot is found
+
 
 @app.on_message(filters.command("start"))
 async def start_command(client, message):
