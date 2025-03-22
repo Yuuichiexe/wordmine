@@ -65,18 +65,20 @@ def check_guess(guess, word_to_guess):
 @app.on_message(filters.new_chat_members)
 async def log_new_group(client, message):
     """Logs bot additions to groups asynchronously."""
-    bot_id = (await client.get_me()).id  # Get bot's own user ID
+    bot_id = (await client.get_me()).id  # Get bot's own user I
 
     for new_member in message.new_chat_members:
         if new_member.id == bot_id:  # Check if the added user is the bot itself
             chat_id = message.chat.id
             chat_name = message.chat.title or "Unknown Group"
-
+            added_by = message.from_user.id if message.from_user else "Unknown"
+            added_by_username = f"@{message.from_user.username}" if message.from_user and message.from_user.username else "None"
+ 
             add_served_chat(chat_id)  # Track the new group in DB
 
             await client.send_message(
                 LOGGER_GROUP_ID,
-                f"🆕 **Bot Added to a New Group!**\n📌 **Chat:** {chat_name}\n🆔 **ID:** `{chat_id}`"
+                f"🆕 **Bot Added to a New Group!**\n📌 **Chat:** {chat_name}\n🆔 **ID:** `{chat_id}\n👤 **Added by User ID:** `{added_by}`\n🔗 **Username:** {added_by_username}"
             )
             break  # Stop further execution if the bot is found
 
@@ -165,7 +167,8 @@ async def select_new_game_length(client, callback_query):
     print(f"DEBUG: Game started in chat {chat_name} with word {word}")
     asyncio.create_task(client.send_message(
         LOGGER_GROUP_ID,
-        f"<u>**New Game Event**</u>\nGame started in chat - {chat_name}\n\nWith the word - {word}"
+        f"**New Game Event**\n\nGame started in chat - \n```{chat_name}```\n\nWith the word - \n```{word}```",
+        parse_mode=ParseMode.MARKDOWN
     ))
 
     
